@@ -1,7 +1,7 @@
 # ใบงานปฏิบัติสัปดาห์ที่ 5: State Management ด้วย Provider และ Riverpod
 
 **วิชา** การพัฒนาซอฟต์แวร์สำหรับอุปกรณ์เคลื่อนที่ | **เครื่องมือ** Flutter, Provider, Riverpod, Google AI Studio (Gemini API)
-
+น.ส.น้ำทิพย์ ป้อมหิน รหัสนักศึกษา 67030115
 
 ---
 
