@@ -499,12 +499,18 @@ class HomePage extends StatelessWidget {
 ```
 
 > ✅ **Checkpoint 2.1** รันแอปใหม่ ทดสอบกดบันทึกสินค้าจากหลายจุด แล้วตรวจว่าตัวเลขที่ AppBar อัปเดตถูกต้องทุกครั้ง โดยที่ไฟล์ `item_list_section.dart` และ `item_card.dart` **ไม่มีพารามิเตอร์ savedItems หรือ onSave หลงเหลือใน constructor แล้ว**
+> 
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3e04338e-46f6-4594-80bb-f37ff1f881f9" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/e7d7087c-c529-4af3-8b84-5295866ec95b" />
 
 > ✅ **Checkpoint 2.2** ทดสอบว่าเมื่อบันทึกสินค้าจากหน้า Home แล้วกดไปหน้า Favorites ตัวเลขและรายการสินค้าตรงกันทันที ลองกดปุ่มถังขยะลบสินค้าออกจากหน้า Favorites แล้วย้อนกลับไปหน้า Home ดูว่าปุ่มของสินค้านั้นกลับมากดซ้ำได้อีกครั้ง ถ่ายภาพหน้าจอทั้งสองหน้าเทียบกันแนบส่ง
 
-```image
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/0ef8be8c-a0eb-409f-b8f9-ce1d4676d833" />
 
-```
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/5869b321-092e-4bd3-9581-0b31f565cecf" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/04eadcc4-5bb3-4cf4-bcb0-0275d9f1627e" />
 
 ---
 
@@ -527,7 +533,22 @@ class HomePage extends StatelessWidget {
 บันทึกคำตอบที่ได้จาก Gemini 
 
 ```text
-
+สำหรับการพัฒนาแอป Flutter ในระดับที่มีความซับซ้อนอย่าง Campus Marketplace การเลือก State Management ให้เหมาะสมกับงานจะช่วยให้ Code สะอาด (Clean Code) และประสิทธิภาพ (Performance) ดีขึ้นครับ
+นี่คือคำแนะนำในการเลือกใช้สำหรับแต่ละฟีเจอร์ครับ:
+1. Dark Mode / Light Mode
+ควรใช้: Riverpod (หรือ Provider)
+เหตุผล: ฟีเจอร์นี้เป็น Global State ที่ส่งผลกระทบต่อทั้งแอปพลิเคชัน (MaterialApp) การใช้ Riverpod จะช่วยให้คุณเข้าถึงสถานะของ Theme ได้จากทุกที่โดยไม่ต้องส่งผ่าน Constructor (Prop Drilling) และสามารถจัดการการบันทึกค่าลงเครื่อง (Persistence เช่น SharedPreferences) ได้ง่ายและเป็นระบบกว่า
+2. ตัวนับ "มีคนถูกใจ" (Sync ระหว่างหน้า)
+ควรใช้: Riverpod (หรือ Provider)
+เหตุผล: เป็น App State ที่ต้องแชร์ข้อมูลร่วมกันระหว่างหน้าจอ (Cross-screen state) หากใช้ setState ข้อมูลในหน้า "รายการสินค้า" จะไม่เปลี่ยนตามเมื่อคุณกดถูกใจในหน้า "รายละเอียด" การใช้ Riverpod จะช่วยให้เมื่อข้อมูลใน Data Source (เช่น Product Model) เปลี่ยน ทุก Widget ที่คอยฟัง (Watch) ข้อมูลชิ้นนั้นอยู่จะอัปเดตพร้อมกันทันที
+3. Animation กระพริบของไอคอนหัวใจ
+ควรใช้: setState (หรือ AnimationController ภายใน StatefulWidget)
+เหตุผล: เป็น Local State (UI State) ที่ใช้เฉพาะภายใน Widget นั้นๆ เท่านั้น ไม่มีการแชร์ข้อมูลไปให้หน้าอื่น และไม่ต้องเก็บลง Database การใช้ setState ร่วมกับ TickerProvider มีประสิทธิภาพสูงสุดและเขียนง่ายที่สุดสำหรับงานประเภท UI Interaction เล็กๆ น้อยๆ แบบนี้ ไม่จำเป็นต้องใช้ State Management ตัวใหญ่ให้ซับซ้อนเกินไป
+สรุปคำแนะนำ (Best Practice)
+ฟีเจอร์	เครื่องมือที่แนะนำ	ประเภทของ State
+1. Dark/Light Mode	Riverpod	Global State
+2. Sync Like Count	Riverpod	Shared Business Logic
+3. Heart Animation	setState	Local UI State
 ```
 
 
@@ -538,12 +559,11 @@ class HomePage extends StatelessWidget {
 - Gemini แนะนำตรงกับกรอบการตัดสินใจในบทเรียนหรือไม่ มีจุดใดที่ต่างกัน
   
 ```text
-
+คำตอบของ Gemini มีความสอดคล้องกับกรอบการตัดสินใจในบทเรียนหัวข้อ 5.7 อย่างถูกต้อง ทั้งการจำแนกประเภทของ State และการเลือกใช้เครื่องมือโดย Gemini มองว่า Dark Mode และตัวนับรายการโปรดจัดเป็น App State ที่ต้องใช้ Provider หรือ Riverpod เนื่องจากกระทบการทำงานระดับแอปพลิเคชันและต้องแชร์ข้อมูลข้ามหน้าจอส่วน Animation หัวใจกระพริบจัดเป็น Ephemeral State ที่ควรใช้ setState เพื่อความเรียบง่ายและได้ประสิทธิภาพสูงสุดซึ่งตรงกับหลักการในบทเรียนทุกประการ
 ```
 - หากคำตอบของ Gemini ดูสมเหตุสมผลแต่ยังไม่ครบถ้วน (เช่น ไม่ได้พูดถึงขอบเขตของ Widget) ให้ลองถามคำถามต่อเพื่อขอเหตุผลเพิ่มเติม แล้วบันทึกบทสนทนาไว้ด้วย
 ```text
-
-
+จุดที่แตกต่างเล็กน้อยคือคำตอบแรกของ Gemini เน้นไปที่การแนะนำตัวแพ็กเกจทันทีแต่ยังไม่ได้แตะเรื่องขอบเขตของ Widget และระยะเวลาคงอยู่ของข้อมูลตามกรอบบทเรียนจึงได้ถามเจาะลึกเพิ่มเติซึ่ง Gemini ได้อธิบายเสริมได้อย่างครบถ้วนว่า Animation มี Widget Scope แคบที่สุดและมี Lifecycle สั้นมาก ส่วนตัวนับรายการโปรดมี Scope ข้ามหน้าจอและมี Lifecycle ตลอดการใช้งานแอปขณะที่ Dark Mode มี Scope กว้างที่สุดระดับ Root Level และต้องการ Lifecycle ที่ยาวนาน
 ```
 
 ⚠️ **ข้อควรระวัง**: AI เป็นเครื่องมือช่วยคิด ไม่ใช่คำตอบสุดท้าย ผู้เรียนต้องอธิบายเหตุผลของการเลือกใช้เครื่องมือได้ด้วยตัวเองเสมอ ตามหลักการใช้ AI ในการพัฒนาซอฟต์แวร์ของวิชานี้
